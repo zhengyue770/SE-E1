@@ -1,6 +1,6 @@
 
 /**************************************************************************************************/
-/* Copyright (C) RootAmaris, 2014-2015                                                            */
+/* Copyright (C) RootAmaris                                                                       */
 /*                                                                                                */
 /*  FILE NAME             :  SE-E1.c                                                              */
 /*  PRINCIPAL AUTHOR      :  RootAmaris                                                           */
@@ -16,6 +16,8 @@
  * Revision log:
  *
  * Created by RootAmaris, 2014/09/10
+ * Add function FindCmd and ShowAllCmd by RootAmaris, 2014/09/10
+ * Alter function main---while(1), 2014/09/10
  *
  */
 
@@ -61,17 +63,57 @@ tCmdNode* InitCmdList()
     return head;
 }
 
-int main()
+tCmdNode* FindCmd(tCmdNode *head, char* inputCmd)
 {
-    tCmdNode *head;
     tCmdNode *p;
-    head = InitCmdList();
+    p = head->next;
+    while(p != NULL)
+    {
+        if(!strcmp(p->cmd, inputCmd))
+        {
+            break;
+        }
+	p = p->next;
+    }
+    return p;
+}
+
+int ShowAllCmd(tCmdNode *head)
+{
+    tCmdNode *p;
     p = head->next;
     printf("This is my command list:\n");
     while(p != NULL)
     {
         printf("%s-------%s\n", p->cmd, p->desc);
         p = p->next;
+    }
+    return 0;
+}
+
+int main()
+{
+    tCmdNode *head;
+    tCmdNode *p;
+    char* inputCmd;
+    head = InitCmdList();
+    ShowAllCmd(head);
+    while(1)
+    {
+        printf("Please enter a command:");
+        scanf("%s", inputCmd);
+	if((p = FindCmd(head, inputCmd)) != NULL)
+	{
+	    printf("%s\n", p->desc);
+	    if(!strcmp(p->cmd, "cmdlist"))
+	    {
+		ShowAllCmd(head);
+  	    }
+	}
+	else
+	{
+	    printf("This command is not exist!\n");
+	}
     }
     return 0;
 }
