@@ -19,6 +19,7 @@
  * Add function FindCmd and ShowAllCmd by RootAmaris, 2014/09/10
  * Alter function main---while(1), 2014/09/10
  * Add function filelist, 2014/09/14
+ * Delete command filelist, 2014/09/14
  */
 
 #include <stdio.h>
