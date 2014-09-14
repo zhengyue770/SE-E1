@@ -115,7 +115,8 @@ tCmdNode* InitCmdList()
     }
     p = CreateCmdNode("cmdlist", "This command can show all commands!", ShowAllCmd);
     head->next = p;
-    q = CreateCmdNode("help", "This command can show you what all of these commands are use for!", ShowAllInformation);
+    q = CreateCmdNode("help", "This command can show you what all of these commands are use for!",
+                      ShowAllInformation);
     p->next = q;
     p = q;
     return head;
