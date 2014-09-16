@@ -32,7 +32,7 @@
 int main()
 {
     tCmdNode *pHead = NULL;
-    tCmdNode *p;
+    tCmdNode *pThisNode;
     char* pInputCmd;
     pHead = InitCmdList();
     if(pHead == NULL)
@@ -45,12 +45,12 @@ int main()
     {
         printf("\nftp[Please enter a command]>");
         scanf("%s", pInputCmd);
-	if((p = FindCmd(pHead, pInputCmd)) != NULL)
+	if((pThisNode = FindCmd(pHead, pInputCmd)) != NULL)
 	{
-	    printf("%s\n", p->desc);
-	    if(p->show != NULL)
+	    printf("%s\n", pThisNode->desc);
+	    if(pThisNode->pShow != NULL)
 	    {
-		p->show(pHead);
+		pThisNode->pShow(pHead);
   	    }
 	}
 	else

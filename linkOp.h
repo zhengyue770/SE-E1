@@ -24,14 +24,14 @@ typedef struct CmdNode
 {
     char*   cmd;
     char*   desc;
-    int (*show)();
-    struct  CmdNode *next;
+    int (*pShow)();
+    struct  CmdNode *pNext;
 } tCmdNode;
 
-tCmdNode* CreateCmdNode(char* nodeCmd, char* nodeDesc, int (*nodeShow)());
+tCmdNode* CreateCmdNode(char* pNodeCmd, char* pNodeDesc, int (*pNodeShow)());
 
-int ShowAllCmd(tCmdNode *head);
+int ShowAllCmd(tCmdNode *pHead);
 
 tCmdNode* InitCmdList();
 
-tCmdNode* FindCmd(tCmdNode *head, char* inputCmd);
+tCmdNode* FindCmd(tCmdNode *pHead, char* pInputCmd);

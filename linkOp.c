@@ -37,8 +37,8 @@ tCmdNode* CreateCmdNode(char* pNodeCmd, char* pNodeDesc, int (*pNodeShow)())
     {
         pNewNode->cmd = pNodeCmd;
         pNewNode->desc = pNodeDesc;
-        pNewNode->show = pNodeShow;
-        pNewNode->next = NULL;
+        pNewNode->pShow = pNodeShow;
+        pNewNode->pNext = NULL;
     }
     return pNewNode;
 }
@@ -47,7 +47,7 @@ tCmdNode* CreateCmdNode(char* pNodeCmd, char* pNodeDesc, int (*pNodeShow)())
 int ShowAllCmd(tCmdNode *pHead)
 {
     tCmdNode *pThisNode = NULL;
-    pThisNode = pHead->next;
+    pThisNode = pHead->pNext;
     if(pThisNode == NULL)
     {
         printf("There is no command.");
@@ -57,7 +57,8 @@ int ShowAllCmd(tCmdNode *pHead)
     while(pThisNode != NULL)
     {
         printf("     %s     ", pThisNode->cmd);
-        pThisNode = pThisNode->next;
+        printf("\n");
+        pThisNode = pThisNode->pNext;
     }
     return 0;
 }
@@ -66,7 +67,7 @@ int ShowAllCmd(tCmdNode *pHead)
 int ShowAllInformation(tCmdNode *pHead)
 {
     tCmdNode *pThisNode = NULL;
-    pThisNode = pHead->next;
+    pThisNode = pHead->pNext;
     if(pThisNode == NULL)
     {
         printf("There is no command.\n");
@@ -76,7 +77,7 @@ int ShowAllInformation(tCmdNode *pHead)
     while(pThisNode != NULL)
     {
         printf("\n%s-------%s\n", pThisNode->cmd, pThisNode->desc);
-        pThisNode = pThisNode->next;
+        pThisNode = pThisNode->pNext;
     }
     return 0;
 }
@@ -97,14 +98,15 @@ tCmdNode* InitCmdList()
     {
         return NULL;
     }
-    pHead->next = pThisNode;
-    qNextNode = CreateCmdNode("help", "This command can show you what all of these commands are use for!",
-                               ShowAllInformation);
+    pHead->pNext = pThisNode;
+    qNextNode = CreateCmdNode("help",
+                              "This command show you what all of these commands are use for!",
+                              ShowAllInformation);
     if(qNextNode == NULL)
     {
         return NULL;
     }
-    pThisNode->next = qNextNode;
+    pThisNode->pNext = qNextNode;
     pThisNode = qNextNode;
     return pHead;
 }
@@ -113,14 +115,14 @@ tCmdNode* InitCmdList()
 tCmdNode* FindCmd(tCmdNode *pHead, char* pInputCmd)
 {
     tCmdNode *pThisNode = NULL;
-    pThisNode = pHead->next;
+    pThisNode = pHead->pNext;
     while(pThisNode != NULL)
     {
         if(!strcmp(pThisNode->cmd, pInputCmd))
         {
             break;
         }
-	pThisNode = pThisNode->next;
+	pThisNode = pThisNode->pNext;
     }
     return pThisNode;
 }
