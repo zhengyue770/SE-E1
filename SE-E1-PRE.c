@@ -31,136 +31,128 @@ typedef struct CmdNode
 {
     char* cmd;
     char* desc;
-    int (*show)();
-    struct CmdNode *next;
+    int (*pShow)();
+    struct CmdNode *pNext;
 } tCmdNode;
 
 /*create linked list node*/
-tCmdNode* CreateCmdNode(char* nodeCmd, char* nodeDesc, int (*nodeShow)())
+tCmdNode* CreateCmdNode(char* pNodeCmd, char* pNodeDesc, int (*pNodeShow)())
 {
-    tCmdNode *p;
-    p = (tCmdNode*)malloc(sizeof(tCmdNode));
-    if(p == NULL)
+    tCmdNode *pNewNode;
+    pNewNode = (tCmdNode*)malloc(sizeof(tCmdNode));
+    if(pNewNode == NULL)
     {
         printf("\nError: command node create failed!\n");
     }
     else
     {
-        p->cmd = nodeCmd;
-        p->desc = nodeDesc;
-        p->show = nodeShow;
-        p->next = NULL;
+        pNewNode->cmd = pNodeCmd;
+        pNewNode->desc = pNodeDesc;
+        pNewNode->pShow = pNodeShow;
+        pNewNode->pNext = NULL;
     }
-    return p;
+    return pNewNode;
 }
 
 /*show all commands in linked list*/
-int ShowAllCmd(tCmdNode *head)
+int ShowAllCmd(tCmdNode *pHead)
 {
-    tCmdNode *p = NULL;
-    p = head->next;
-    if(p == NULL)
+    tCmdNode *pThisNode = NULL;
+    pThisNode = pHead->pNext;
+    if(pThisNode == NULL)
     {
         printf("There is no command.\n");
         return 2;
     }
     printf("\nThis is my command list:\n");
-    while(p != NULL)
+    while(pThisNode != NULL)
     {
-        printf("     %s     ", p->cmd);
+        printf("     %s     ", pThisNode->cmd);
         printf("\n");
-        p = p->next;
+        pThisNode = pThisNode->pNext;
     }
     return 0;
 }
 
 /*show all information about all commands*/
-int ShowAllInformation(tCmdNode *head)
+int ShowAllInformation(tCmdNode *pHead)
 {
-    tCmdNode *p = NULL;
-    p = head->next;
-    if(p == NULL)
+    tCmdNode *pThisNode = NULL;
+    pThisNode = pHead->pNext;
+    if(pThisNode == NULL)
     {
         printf("There is no command.\n");
         return 2;
     }
     printf("\nThis is all command information:\n");
-    while(p != NULL)
+    while(pThisNode != NULL)
     {
-        printf("\n%s-------%s\n", p->cmd, p->desc);
-        p = p->next;
+        printf("\n%s-------%s\n", pThisNode->cmd, pThisNode->desc);
+        pThisNode = pThisNode->pNext;
     }
-    return 0;
-}
-
-/*show all files in current path*/
-int ShowFile(tCmdNode *head)
-{
-    printf("\n");
-    execl("/bin/ls", "ls", NULL);
-    printf("\n");
     return 0;
 }
 
 /*initialize command linked list*/
 tCmdNode* InitCmdList()
 {
-    tCmdNode *head = NULL;
-    tCmdNode *p = NULL;
-    tCmdNode *q = NULL;
-    head = CreateCmdNode(NULL, NULL, NULL);
-    if(head == NULL)
+    tCmdNode *pHead = NULL;
+    tCmdNode *pThisNode = NULL;
+    tCmdNode *qNextNode = NULL;
+    pHead = CreateCmdNode(NULL, NULL, NULL);
+    if(pHead == NULL)
     {
         return NULL;
     }
-    p = CreateCmdNode("cmdlist", "This command can show all commands!", ShowAllCmd);
-    head->next = p;
-    q = CreateCmdNode("help", "This command can show you what all of these commands are use for!",
-                      ShowAllInformation);
-    p->next = q;
-    p = q;
-    return head;
+    pThisNode = CreateCmdNode("cmdlist", "This command can show all commands!", ShowAllCmd);
+    pHead->pNext = pThisNode;
+    qNextNode = CreateCmdNode("help",
+                              "This command show you what all of these commands are use for!",
+                               ShowAllInformation);
+    pThisNode->pNext = qNextNode;
+    pThisNode = qNextNode;
+    return pHead;
 }
 
 /*find matched command*/
-tCmdNode* FindCmd(tCmdNode *head, char* inputCmd)
+tCmdNode* FindCmd(tCmdNode *pHead, char* pInputCmd)
 {
-    tCmdNode *p = NULL;
-    p = head->next;
-    while(p != NULL)
+    tCmdNode *pThisNode = NULL;
+    pThisNode = pHead->pNext;
+    while(pThisNode != NULL)
     {
-        if(!strcmp(p->cmd, inputCmd))
+        if(!strcmp(pThisNode->cmd, pInputCmd))
         {
             break;
         }
-        p = p->next;
+        pThisNode = pThisNode->pNext;
     }
-    return p;
+    return pThisNode;
 }
 
 /*menu program*/
 int main()
 {
-    tCmdNode *head = NULL;
-    tCmdNode *p;
-    char* inputCmd;
-    head = InitCmdList();
-    if(head == NULL)
+    tCmdNode *pHead = NULL;
+    tCmdNode *pThisNode;
+    char* pInputCmd;
+    pHead = InitCmdList();
+    if(pHead == NULL)
     {
         printf("Error: linked list is not built!\n");
         return 1;
     }
-    ShowAllCmd(head);
+    ShowAllCmd(pHead);
     while(1)
     {
         printf("\nftp[Please enter a command]>");
-        scanf("%s", inputCmd);
-        if((p = FindCmd(head, inputCmd)) != NULL)
+        scanf("%s", pInputCmd);
+        if((pThisNode = FindCmd(pHead, pInputCmd)) != NULL)
         {
-            printf("%s\n", p->desc);
-            if(p->show != NULL)
+            printf("%s\n", pThisNode->desc);
+            if(pThisNode->pShow != NULL)
             {
-                p->show(head);
+                pThisNode->pShow(pHead);
             }
         }
         else

@@ -21,6 +21,7 @@
  * Add struct member (*show)(), 2014/09/12
  * Modularity, 2014/09/13
  * Add some judgments of null pointer, 2014/09/14
+ * Alter names of two pointers---head and inputCmd, 2014/09/16
  */
 
 
@@ -30,26 +31,26 @@
 
 int main()
 {
-    tCmdNode *head = NULL;
+    tCmdNode *pHead = NULL;
     tCmdNode *p;
-    char* inputCmd;
-    head = InitCmdList();
-    if(head == NULL)
+    char* pInputCmd;
+    pHead = InitCmdList();
+    if(pHead == NULL)
     {
         printf("Error: linked list is not built!");
         return 1;
     }
-    ShowAllCmd(head);
+    ShowAllCmd(pHead);
     while(1)
     {
-        printf("Please enter a command:");
-        scanf("%s", inputCmd);
-	if((p = FindCmd(head, inputCmd)) != NULL)
+        printf("\nftp[Please enter a command]>");
+        scanf("%s", pInputCmd);
+	if((p = FindCmd(pHead, pInputCmd)) != NULL)
 	{
 	    printf("%s\n", p->desc);
 	    if(p->show != NULL)
 	    {
-		p->show(head);
+		p->show(pHead);
   	    }
 	}
 	else
