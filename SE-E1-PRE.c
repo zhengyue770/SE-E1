@@ -24,7 +24,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
+
+#define CMD_MAX_LEN 128
 
 /* command linked list node struct */
 typedef struct CmdNode
@@ -57,7 +58,7 @@ tCmdNode* CreateCmdNode(char* pNodeCmd, char* pNodeDesc, int (*pNodeShow)())
 /*show all commands in linked list*/
 int ShowAllCmd(tCmdNode *pHead)
 {
-    tCmdNode *pThisNode = NULL;
+    tCmdNode *pThisNode;
     pThisNode = pHead->pNext;
     if(pThisNode == NULL)
     {
@@ -77,7 +78,7 @@ int ShowAllCmd(tCmdNode *pHead)
 /*show all information about all commands*/
 int ShowAllInformation(tCmdNode *pHead)
 {
-    tCmdNode *pThisNode = NULL;
+    tCmdNode *pThisNode;
     pThisNode = pHead->pNext;
     if(pThisNode == NULL)
     {
@@ -96,9 +97,9 @@ int ShowAllInformation(tCmdNode *pHead)
 /*initialize command linked list*/
 tCmdNode* InitCmdList()
 {
-    tCmdNode *pHead = NULL;
-    tCmdNode *pThisNode = NULL;
-    tCmdNode *qNextNode = NULL;
+    tCmdNode *pHead;
+    tCmdNode *pThisNode;
+    tCmdNode *qNextNode;
     pHead = CreateCmdNode(NULL, NULL, NULL);
     if(pHead == NULL)
     {
@@ -117,7 +118,7 @@ tCmdNode* InitCmdList()
 /*find matched command*/
 tCmdNode* FindCmd(tCmdNode *pHead, char* pInputCmd)
 {
-    tCmdNode *pThisNode = NULL;
+    tCmdNode *pThisNode;
     pThisNode = pHead->pNext;
     while(pThisNode != NULL)
     {
@@ -133,9 +134,8 @@ tCmdNode* FindCmd(tCmdNode *pHead, char* pInputCmd)
 /*menu program*/
 int main()
 {
-    tCmdNode *pHead = NULL;
+    tCmdNode *pHead;
     tCmdNode *pThisNode;
-    char* pInputCmd;
     pHead = InitCmdList();
     if(pHead == NULL)
     {
@@ -146,6 +146,7 @@ int main()
     while(1)
     {
         printf("\nftp[Please enter a command]>");
+        char pInputCmd[CMD_MAX_LEN];
         scanf("%s", pInputCmd);
         if((pThisNode = FindCmd(pHead, pInputCmd)) != NULL)
         {
