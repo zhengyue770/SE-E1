@@ -133,7 +133,6 @@ tLinkNode* SearchLinkNode(tLinkTable *pLinkTable, int Condition(tLinkNode *pNode
         }
         pNode = pNode->pNext;
     }
-    printf("This is no match node you want to search.\n");
     return NULL;
 }
 
@@ -157,7 +156,6 @@ tLinkNode* GetNextLinkNode(tLinkTable *pLinkTable, tLinkNode *pNode)
         {
             if(pThisNode == pLinkTable->pTail)
             {
-                printf("This node is the last node.\n");
                 return NULL;
             }
             return pThisNode->pNext;

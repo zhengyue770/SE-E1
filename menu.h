@@ -25,6 +25,7 @@ typedef struct CmdNode
     tLinkNode *pNext;
     char* cmd;
     char* desc;
+    int (*pOpt)();
 } tCmdNode;
 
 typedef struct Menu
@@ -34,6 +35,10 @@ typedef struct Menu
 
 tMenu* CreateMenu();
 
-int AddCommand(tMenu *pMenu, char* pCommand, char* pDesc);
+int AddCommand(tMenu *pMenu, char* pCommand, char* pDesc, int (*pOpt)());
 
 int ShowAllCommand(tMenu *pMenu);
+
+int ShowAllInformation(tMenu *pMenu);
+
+int MenuStart(tMenu *Menu);
