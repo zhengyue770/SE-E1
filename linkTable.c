@@ -107,7 +107,6 @@ int DeleteLinkNode(tLinkTable *pLinkTable, tLinkNode *pNode)
             pThisNode->pNext = NULL;
             free(pThisNode);
             pLinkTable->linkNodeSize--;
-            printf("Delete succes.\n");
             return 0;
         }
         pBeforeNode = pThisNode;

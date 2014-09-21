@@ -22,14 +22,29 @@
 #include <stdlib.h>
 #include "menu.h"
 
+int GetVersion(tMenu *pMenu);
+
 int main()
 {
     tMenu *pMenu = CreateMenu();
-    AddCommand(pMenu, "help", "This command show all commands!", ShowAllCommand);
-    AddCommand(pMenu, "cmdlist", "This command show you what all of these commands are use for!", ShowAllInformation);
-    AddCommand(pMenu, "version", "This command show version number!", NULL);
-    ShowAllCommand(pMenu);
+    AddCommand(pMenu, "cmdlist", "This command show all commands!", ShowAllCommand);
+    AddCommand(pMenu, "help", "This command show you what all of these commands are use for!",
+               ShowAllInformation);
+    AddCommand(pMenu, "version", "This command show version number!", GetVersion);
+    AddCommand(pMenu, "exit", "This command can exit menu!", MenuStop);
+    ShowAllInformation(pMenu);
     MenuStart(pMenu);
+    DeleteCommand(pMenu, "version");
+    ShowAllInformation(pMenu);
+    MenuStart(pMenu);
+    DeleteMenu(pMenu);
+    ShowAllInformation(pMenu);
+    return 0;
+}
+
+int GetVersion(tMenu *pMenu)
+{
+    printf("Version: v1.2\n");
     return 0;
 }
 

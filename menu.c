@@ -24,7 +24,9 @@
 
 #define CMD_MAX_LEN 128
 
+int out = 0;
 char pInputCmd[CMD_MAX_LEN];
+char* deleteCmd;
 
 tMenu* CreateMenu()
 {
@@ -98,7 +100,7 @@ int ShowAllInformation(tMenu *pMenu)
 }
 
 
-int SearchCondition(tLinkNode *pLinkNode)
+int InputCondition(tLinkNode *pLinkNode)
 {
     tCmdNode *pNode = (tCmdNode *)pLinkNode;
     if(!strcmp(pNode->cmd, pInputCmd))
@@ -110,14 +112,14 @@ int SearchCondition(tLinkNode *pLinkNode)
 
 int MenuStart(tMenu *pMenu)
 {
+
     tCmdNode *pThisNode;
     while(1)
     {
-        printf("\nftp[Please enter a command]>");
+        printf("\nMenu[Please enter a command]>");
         scanf("%s", pInputCmd);
-        if((pThisNode = (tCmdNode *)SearchLinkNode(pMenu->pMenuHead, SearchCondition)) != NULL)
+        if((pThisNode = (tCmdNode *)SearchLinkNode(pMenu->pMenuHead, InputCondition)) != NULL)
         {
-            printf("%s\n", pThisNode->desc);
             if(pThisNode->pOpt != NULL)
             {
                 pThisNode->pOpt(pMenu);
@@ -127,6 +129,45 @@ int MenuStart(tMenu *pMenu)
         {
             printf("This command is not exist!\n");
 	    continue;
+        }
+        if(out)
+        {
+            out = 0;
+            break;           
         } 
     }
+}
+
+int MenuStop(tMenu *pMenu)
+{
+
+    printf("exit success!\n\n");
+    out = 1;
+}
+
+int DeleteCondition(tLinkNode *pLinkNode)
+{
+    tCmdNode *pNode = (tCmdNode *)pLinkNode;
+    if(!strcmp(pNode->cmd, deleteCmd))
+    {
+        return 1;
+    }
+    return 0;
+}
+
+
+int DeleteCommand(tMenu *pMenu, char* pCommand)
+{
+
+    deleteCmd = pCommand;
+    tLinkNode *pLinkNode = SearchLinkNode(pMenu->pMenuHead, DeleteCondition);
+    DeleteLinkNode(pMenu->pMenuHead, pLinkNode);
+    return 0;
+}
+
+int DeleteMenu(tMenu *pMenu)
+{
+    DeleteLinkTable(pMenu->pMenuHead);
+    free(pMenu);
+    return 0;
 }
