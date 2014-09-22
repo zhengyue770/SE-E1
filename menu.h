@@ -20,20 +20,11 @@
 
 #include "linkTable.h"
 
-/*command struct*/
-typedef struct CmdNode
-{
-    tLinkNode *pNext;
-    char* cmd;
-    char* desc;
-    int (*pOpt)();
-} tCmdNode;
+/*command node struct*/
+typedef struct CmdNode tCmdNode;
 
 /*menu struct*/
-typedef struct Menu
-{
-    tLinkTable *pMenuHead;
-} tMenu;
+typedef struct Menu tMenu;
 
 /*create a menu*/
 tMenu* CreateMenu();

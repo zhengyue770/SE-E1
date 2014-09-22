@@ -28,6 +28,21 @@ int out = 0;
 char pInputCmd[CMD_MAX_LEN];
 char* deleteCmd;
 
+/*command struct*/
+struct CmdNode
+{
+    tLinkNode *pNext;
+    char* cmd;
+    char* desc;
+    int (*pOpt)();
+};
+
+/*menu struct*/
+struct Menu
+{
+    tLinkTable *pMenuHead;
+};
+
 tMenu* CreateMenu()
 {
     tMenu *pNewMenu = (tMenu*)malloc(sizeof(tMenu));
