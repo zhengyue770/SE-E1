@@ -32,10 +32,8 @@ int main()
                ShowAllInformation);
     AddCommand(pMenu, "version", "This command show version number!", GetVersion);
     AddCommand(pMenu, "exit", "This command can exit menu!", MenuStop);
-    ShowAllInformation(pMenu);
     MenuStart(pMenu);
     DeleteCommand(pMenu, "version");
-    ShowAllInformation(pMenu);
     MenuStart(pMenu);
     DeleteMenu(pMenu);
     ShowAllInformation(pMenu);

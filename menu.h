@@ -18,8 +18,6 @@
  * 
  */
 
-#include "linkTable.h"
-
 /*command node struct*/
 typedef struct CmdNode tCmdNode;
 

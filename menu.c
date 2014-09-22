@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "menu.h"
-
+#include "linkTable.h"
 #define CMD_MAX_LEN 128
 
 int out = 0;
@@ -43,6 +43,7 @@ struct Menu
     tLinkTable *pMenuHead;
 };
 
+/*create a menu*/
 tMenu* CreateMenu()
 {
     tMenu *pNewMenu = (tMenu*)malloc(sizeof(tMenu));
@@ -70,51 +71,54 @@ tCmdNode* CreateCmdNode(char* pNodeCmd, char* pNodeDesc, int (*pNodeOpt)())
     return pNewNode;
 }
 
+/*add a command into menu*/
 int AddCommand(tMenu *pMenu, char* pCommand, char* pDesc, int (*pOpt)())
 {
     AddLinkNode(pMenu->pMenuHead, (tLinkNode *)CreateCmdNode(pCommand, pDesc, pOpt));
     return 0;
 }
 
+/*print all commands in menu on screen*/
 int ShowAllCommand(tMenu *pMenu)
 {
     tLinkTable *pLinkTable = pMenu->pMenuHead;
     if(pLinkTable->linkNodeSize == 0)
     {
         printf("There is no command.\n");
-        return 2;
+        return -1;
     }
     printf("This is my command list:\n");
     tCmdNode *pThisCmdNode;
     pThisCmdNode = (tCmdNode *)GetLinkTableFirst(pLinkTable);
     while(pThisCmdNode != NULL)
     {
-        printf("     %s     ", pThisCmdNode->cmd);
+        printf("%s     ", pThisCmdNode->cmd);
         printf("\n");
         pThisCmdNode = (tCmdNode *)GetNextLinkNode(pLinkTable, (tLinkNode *)pThisCmdNode);
     }
     return 0;
 }
 
+/*print all commands and their functions on screen*/
 int ShowAllInformation(tMenu *pMenu)
 {
     tLinkTable *pLinkTable = pMenu->pMenuHead;
     if(pLinkTable->linkNodeSize == 0)
     {
-        printf("There is no command.\n");
-        return 2;
+        return -1;
     }
     tCmdNode *pThisCmdNode;
     pThisCmdNode = (tCmdNode *)GetLinkTableFirst(pLinkTable);
+    printf("\n");
     while(pThisCmdNode != NULL)
     {
-        printf("\n%s-------%s\n", pThisCmdNode->cmd, pThisCmdNode->desc);
+        printf("%s-------%s\n", pThisCmdNode->cmd, pThisCmdNode->desc);
         pThisCmdNode = (tCmdNode *)GetNextLinkNode(pLinkTable, (tLinkNode *)pThisCmdNode);
     }
     return 0;
 }
 
-
+/*the condition of search the matched command*/
 int InputCondition(tLinkNode *pLinkNode)
 {
     tCmdNode *pNode = (tCmdNode *)pLinkNode;
@@ -125,9 +129,11 @@ int InputCondition(tLinkNode *pLinkNode)
     return 0;	       
 }
 
+/*start the menu program*/
 int MenuStart(tMenu *pMenu)
 {
-
+    printf("\nMenu program start......\n");
+    ShowAllInformation(pMenu);
     tCmdNode *pThisNode;
     while(1)
     {
@@ -153,6 +159,7 @@ int MenuStart(tMenu *pMenu)
     }
 }
 
+/*stop the menu program*/
 int MenuStop(tMenu *pMenu)
 {
 
@@ -160,6 +167,7 @@ int MenuStop(tMenu *pMenu)
     out = 1;
 }
 
+/*the condition of delete the matched command*/
 int DeleteCondition(tLinkNode *pLinkNode)
 {
     tCmdNode *pNode = (tCmdNode *)pLinkNode;
@@ -170,19 +178,36 @@ int DeleteCondition(tLinkNode *pLinkNode)
     return 0;
 }
 
-
+/*delete command named pCommand*/
 int DeleteCommand(tMenu *pMenu, char* pCommand)
 {
 
     deleteCmd = pCommand;
     tLinkNode *pLinkNode = SearchLinkNode(pMenu->pMenuHead, DeleteCondition);
-    DeleteLinkNode(pMenu->pMenuHead, pLinkNode);
-    return 0;
+    if(!DeleteLinkNode(pMenu->pMenuHead, pLinkNode))
+    {
+        printf("Delete command (%s) success.\n", pCommand);
+        return 0;
+    }
+    else
+    {
+        printf("Delete command (%s) failed.\n", pCommand);
+        return -1;
+    }
 }
 
+/*delete menu*/
 int DeleteMenu(tMenu *pMenu)
 {
-    DeleteLinkTable(pMenu->pMenuHead);
-    free(pMenu);
-    return 0;
+    if(!DeleteLinkTable(pMenu->pMenuHead))
+    {
+        printf("Delete menu success!\n\n");
+        free(pMenu);
+        return 0;
+    }
+    else
+    {
+        printf("Delete menu failed!\n\n");
+        return -1;
+    }
 }

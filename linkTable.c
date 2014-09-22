@@ -22,6 +22,7 @@
 #include <stdlib.h>
 #include "linkTable.h"
 
+/*create a linked list table*/
 tLinkTable* CreateLinkTable()
 {
     tLinkTable *pLinkTable = (tLinkTable*)malloc(sizeof(tLinkTable));
@@ -37,6 +38,7 @@ tLinkTable* CreateLinkTable()
     return pLinkTable;
 }
 
+/*delete the linked list table*/
 int DeleteLinkTable(tLinkTable *pLinkTable)
 {
     if(pLinkTable == NULL)
@@ -62,6 +64,7 @@ int DeleteLinkTable(tLinkTable *pLinkTable)
     return 0;
 }
 
+/*add a node into linked list*/
 int AddLinkNode(tLinkTable *pLinkTable, tLinkNode *pAddNode)
 {
     if(pLinkTable == NULL || pAddNode == NULL)
@@ -84,12 +87,13 @@ int AddLinkNode(tLinkTable *pLinkTable, tLinkNode *pAddNode)
     return 0;
 }
 
+/*delete a node in linked list*/
 int DeleteLinkNode(tLinkTable *pLinkTable, tLinkNode *pNode)
 {
     if(pLinkTable == NULL || pNode == NULL)
     {
         printf("Error(1): The link table or node you add is not exist.\n");
-        return 1;
+        return -1;
     }
     tLinkNode *pThisNode;
     tLinkNode *pBeforeNode;
@@ -113,9 +117,10 @@ int DeleteLinkNode(tLinkTable *pLinkTable, tLinkNode *pNode)
         pThisNode = pThisNode->pNext;
     }
     printf("There is no match node you want to delete.\n");
-    return 0;
+    return 1;
 }
 
+/*search a linked list node with condition*/
 tLinkNode* SearchLinkNode(tLinkTable *pLinkTable, int Condition(tLinkNode *pNode))
 {
     if(pLinkTable == NULL || Condition == NULL)
@@ -135,6 +140,7 @@ tLinkNode* SearchLinkNode(tLinkTable *pLinkTable, int Condition(tLinkNode *pNode
     return NULL;
 }
 
+/*get next linked list node*/
 tLinkNode* GetNextLinkNode(tLinkTable *pLinkTable, tLinkNode *pNode)
 {
     if(pLinkTable == NULL || pNode == NULL)
@@ -164,6 +170,7 @@ tLinkNode* GetNextLinkNode(tLinkTable *pLinkTable, tLinkNode *pNode)
     return NULL;
 }
 
+/*get first node in linked list table*/
 tLinkNode* GetLinkTableFirst(tLinkTable *pLinkTable)
 {
     if(pLinkTable == NULL)
