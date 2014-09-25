@@ -29,13 +29,13 @@ char pInputCmd[CMD_MAX_LEN];
 char* deleteCmd;
 
 /*command struct*/
-struct CmdNode
+typedef struct CmdNode
 {
     tLinkNode *pNext;
     char* cmd;
     char* desc;
     int (*pOpt)();
-};
+} tCmdNode;
 
 /*menu struct*/
 struct Menu

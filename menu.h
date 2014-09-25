@@ -18,9 +18,6 @@
  * 
  */
 
-/*command node struct*/
-typedef struct CmdNode tCmdNode;
-
 /*menu struct*/
 typedef struct Menu tMenu;
 

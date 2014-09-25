@@ -36,7 +36,6 @@ int main()
     DeleteCommand(pMenu, "version");
     MenuStart(pMenu);
     DeleteMenu(pMenu);
-    ShowAllInformation(pMenu);
     return 0;
 }
 
